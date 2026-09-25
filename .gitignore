@@ -1,0 +1,7 @@
+/data/
+*.db
+*.db-*
+/memos
+/memos-*
+dist/
+.DS_Store
