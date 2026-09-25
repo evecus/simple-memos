@@ -39,15 +39,16 @@
   }
 
   function fmtTime(ts) {
-    return new Date(ts * 1000).toLocaleString();
+    const d = new Date(ts * 1000);
+    return d.toLocaleString();
   }
 
   function escapeHtml(s) {
     return String(s)
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/"/g, """);
+      .replace(/&/g, "&" + "amp;")
+      .replace(/</g, "&" + "lt;")
+      .replace(/>/g, "&" + "gt;")
+      .replace(/"/g, "&" + "quot;");
   }
 
   function render() {
