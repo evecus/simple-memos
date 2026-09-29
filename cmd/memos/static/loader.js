@@ -1,18 +1,14 @@
-(async function() {
-  async function loadB64(prefix, n) {
-    const parts = [];
-    for (let i = 0; i < n; i++) {
-      parts.push(await fetch('/' + prefix + '.' + i + '.b64').then(r => r.text()));
-    }
-    return atob(parts.join(''));
-  }
-  const css = await loadB64('css', 4);
+Promise.all([
+  fetch('/app.p0.js').then(r => r.text()),
+  fetch('/app.p1.js').then(r => r.text()),
+  fetch('/app.css').then(r => r.text()),
+]).then(([p0, p1, css]) => {
   const style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
-  const js = await loadB64('js', 7);
-  (0, eval)(js);
-})().catch(e => {
-  document.getElementById('app').innerHTML = '<div class="empty error">' + e + '</div>';
+  (0, eval)(p0 + p1);
+}).catch(e => {
+  const el = document.getElementById('app');
+  if (el) el.innerHTML = '<div style="padding:48px;text-align:center;color:#c00">' + e + '</div>';
   console.error(e);
 });
